@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import Search from '@/components/Search';
 import { useState, useEffect } from 'react';
-import { Link } from "expo-router";
+import { Link, router, useRouter } from "expo-router";
 import { 
   Image, 
   StyleSheet, 
@@ -50,6 +50,8 @@ export default function HomeScreen() {
     travel: ""
   };
 
+  const router = useRouter();
+
  
   async function fetchData() {
     try{
@@ -92,42 +94,45 @@ export default function HomeScreen() {
     console.log(convertedDate);
 
     return (
-      // <Link></Link>
-      <View style={styles.articleCard}>
-        
-        <View style={styles.mainInfo}>
-          <View style={styles.textContainer}>
-            <View>
-              <Text style={styles.source}>{item.source}
-              </Text>
+      <Link href={`/home/${item.uuid}`} asChild >
+        <Pressable >
+          <View style={styles.articleCard}>
+            
+            <View style={styles.mainInfo}>
+              <View style={styles.textContainer}>
+                <View>
+                  <Text style={styles.source}>{item.source}
+                  </Text>
+                </View>
+
+                <View>
+                  <Text style={styles.articleTitle}>{item.title}</Text>
+                </View>
+
+              </View>
+
+              <Image 
+                source={{ uri: `${item.image_url}` }}
+                style={styles.newsImage}
+              />
             </View>
 
-            <View>
-              <Text style={styles.articleTitle}>{item.title}</Text>
+            <View style={styles.categoryDateAndBookmark}>
+              <View style={styles.categoryAndDate}>
+                <Text>{convertedDate} • </Text>
+                <Text style={styles.category}>{item.categories[0]}</Text>
+              </View>
+
+              <Pressable>
+                <Image 
+                  source={require("@/assets/icons/bookmark2.png")}
+                  style={styles.bookmark}
+                />
+              </Pressable>
             </View>
-
           </View>
-
-          <Image 
-            source={{ uri: `${item.image_url}` }}
-            style={styles.newsImage}
-          />
-        </View>
-
-        <View style={styles.categoryDateAndBookmark}>
-          <View style={styles.categoryAndDate}>
-            <Text>{convertedDate} • </Text>
-            <Text style={styles.category}>{item.categories[0]}</Text>
-          </View>
-
-          <Pressable>
-            <Image 
-              source={require("@/assets/icons/bookmark2.png")}
-              style={styles.bookmark}
-            />
-          </Pressable>
-        </View>
-      </View>
+        </Pressable>
+      </Link>
     )
   }
 
