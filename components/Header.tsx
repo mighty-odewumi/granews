@@ -8,7 +8,7 @@ export default function Header() {
       <View style={styles.container}>
         <View>
           <Text style={styles.headerMainText}>GraNews</Text>
-          <Text style={styles.headerSubText}>Get Latest Updates</Text>
+          <Text style={styles.headerSubText}>Stay in the loop</Text>
         </View>
           
 
@@ -30,9 +30,10 @@ const styles = StyleSheet.create({
   headerMainText: {
     fontWeight: "900",
     marginBottom: 4,
+    fontSize: 24,
   },
   headerSubText: {
     fontWeight: "400",
-    fontSize: 12,
+    fontSize: 16,
   }
 });
