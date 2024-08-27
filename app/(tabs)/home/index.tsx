@@ -24,6 +24,7 @@ export default function HomeScreen() {
 
   const url3 = "https://news.google.com/rss/articles/CBMiRkFVX3lxTE11RzQtM1BnakVVWWs1VW5MM2dNNXktNEluNS1RSjlTRndoVVBMVjZ5SzVZZFU0Q2I0Rm16WS1SZUdGOGV2dVE?oc=5";
 
+  const testUrl = "@/scripts/dummyData.json";
 
   const apiKey1 = "DaTFTark8fn29YgMcw4jDX5kMJymWjOgwPVnwXGC";
 
@@ -33,7 +34,6 @@ export default function HomeScreen() {
 
   const mainUrl = new URL("https://api.thenewsapi.com/v1/news/top");
   mainUrl.searchParams.append("api_token", apiKey3);
-  // url2.searchParams.append("limit", "5");
   const finalUrl = mainUrl.href;
   // console.log(finalUrl);
 
@@ -56,7 +56,7 @@ export default function HomeScreen() {
  
   async function fetchData() {
     try{
-      await axios.get("@/scripts/dummyData.json")  // "@/scripts/dummyData.json"
+      await axios.get(finalUrl)  // "@/scripts/dummyData.json"
       .then(response => {
         console.log(response.data);  // Axios handles parsing automatically
         setData(response.data.data);
@@ -82,14 +82,8 @@ export default function HomeScreen() {
 
   useEffect(() => {
     
-    /* async function fetchArticle() {
-      const content = await scrapeArticle(url3);
-      console.log("Here is the content", content);
-    }  */
-
-    // fetchArticle();
-    // fetchData();
-    setData(dummyData.data);
+    fetchData();
+    // setData(dummyData.data);
   }, [])
 
   const articleCard = (item: any) => {
@@ -177,8 +171,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   separator: {
-    borderBottomWidth: 1,
-    backgroundColor: "gray",
+    borderStyle: "dotted",
+    borderBottomWidth: .3,
+    backgroundColor: "#ededed",
   },
   articleCard: {
     marginVertical: 24,
@@ -200,6 +195,9 @@ const styles = StyleSheet.create({
   },
   source: {
     fontSize: 16,
+    color: "gray",
+    fontWeight: "600",
+    textTransform: "capitalize",
   },
   articleTitle: {
     fontWeight: "700",
