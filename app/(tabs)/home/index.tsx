@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import Search from '@/components/Search';
 import { useState, useEffect } from 'react';
-import { Link, router, useRouter } from "expo-router";
+import { Link, router, useNavigation, useRouter } from "expo-router";
 import { 
   Image, 
   StyleSheet, 
@@ -52,10 +52,11 @@ export default function HomeScreen() {
 
   const router = useRouter();
 
+  const navigation = useNavigation();
  
   async function fetchData() {
     try{
-      await axios.get("@/scripts/dummyData.json")
+      await axios.get("@/scripts/dummyData.json")  // "@/scripts/dummyData.json"
       .then(response => {
         console.log(response.data);  // Axios handles parsing automatically
         setData(response.data.data);
@@ -65,6 +66,18 @@ export default function HomeScreen() {
     } finally {
 
     }
+  }
+
+  function sendSnippets(snippet: any, uuid: any) {
+    console.log("Send Snippets", snippet);
+    router.push({
+      pathname: "/(tabs)/home/[id]",
+      params: {
+        id: uuid,
+        snippet: "snippet"
+      }
+    });
+    console.log("Sent!");
   }
 
   useEffect(() => {
@@ -94,7 +107,7 @@ export default function HomeScreen() {
     console.log(convertedDate);
 
     return (
-      <Link href={`/home/${item.uuid}`} asChild >
+      <Link href={`/home/${item.uuid}`} asChild onPress={() => sendSnippets(item.snippet, item.uuid)}>
         <Pressable >
           <View style={styles.articleCard}>
             
