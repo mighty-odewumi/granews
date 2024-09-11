@@ -1,7 +1,5 @@
 import { StyleSheet, View, Text, Image, } from "react-native";
 
-
-
 export default function Header() {
   return (
     <>
@@ -24,8 +22,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 16,
-    marginTop: 44,
-    marginBottom: 42,
+    // marginTop: 44,
+    // marginBottom: 42,
   },
   headerMainText: {
     fontWeight: "900",

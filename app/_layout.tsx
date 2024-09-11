@@ -13,7 +13,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    NotoSans: require('../assets/fonts/NotoSans-VariableFont.ttf'),
+    "RobotoMedium": require('../assets/fonts/Roboto/RobotoMedium.ttf'),
+    "RobotoLight": require('../assets/fonts/Roboto/RobotoLight.ttf'),
+    "RobotoRegular": require('../assets/fonts/Roboto/RobotoRegular.ttf'),
+    "RobotoBold": require('../assets/fonts/Roboto/RobotoBold.ttf'),
   });
 
 

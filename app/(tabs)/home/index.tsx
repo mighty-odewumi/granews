@@ -1,5 +1,3 @@
-import Header from '@/components/Header';
-import Search from '@/components/Search';
 import { useState, useEffect } from 'react';
 import { Link, router, useNavigation, useRouter } from "expo-router";
 import { 
@@ -12,13 +10,17 @@ import {
   Pressable, 
   SafeAreaView, 
 } from 'react-native';
-// import scrapper, { scrapeArticle } from "@/scripts/scrapper";
+import Header from '@/components/header/Header';
+import Search from '@/components/Search';
+import { Searchbar } from "react-native-paper";
 import axios from "axios";
 import dummyData from "@/scripts/dummyData.json";
 
 export default function HomeScreen() {
 
   const [data, setData] = useState<any[]>([]);
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const url = "https://newsapi.org/v2/top-headlines?country=ng&apiKey=d9a2c6ca0154424daebb75f56169aabd";
 
@@ -82,8 +84,8 @@ export default function HomeScreen() {
 
   useEffect(() => {
     
-    fetchData();
-    // setData(dummyData.data);
+    // fetchData();
+    setData(dummyData.data);
   }, [])
 
   const articleCard = (item: any) => {
@@ -102,7 +104,13 @@ export default function HomeScreen() {
 
     return (
       <Link href={`/home/${item.uuid}`} asChild onPress={() => sendSnippets(item.snippet, item.uuid)}>
-        <Pressable >
+        <Pressable onPress={() => {
+          android_ripple: {
+            foreground: true
+            color: "#000"
+
+          }
+        }}>
           <View style={styles.articleCard}>
             
             <View style={styles.mainInfo}>
@@ -126,8 +134,8 @@ export default function HomeScreen() {
 
             <View style={styles.categoryDateAndBookmark}>
               <View style={styles.categoryAndDate}>
-                <Text>{convertedDate} • </Text>
-                <Text style={styles.category}>{item.categories[0]}</Text>
+                <Text>{convertedDate}</Text>
+                {/* <Text style={styles.category}>{item.categories[0]}</Text> */}
               </View>
 
               <Pressable>
@@ -147,10 +155,23 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {/* <StatusBar  backgroundColor={"#5474FD"} barStyle={"dark-content"} /> */}
-      <StatusBar  backgroundColor={"#5474FD"} />
+      <StatusBar  barStyle={'dark-content'} />
 
       <Header />
-      <Search />
+
+      <Searchbar 
+        placeholder="Search more..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        theme={{ colors: 
+          { 
+            primary: "#5474FD", 
+            elevation: { level3: "#ededee" } 
+          }
+        }}
+        style={styles.searchBar}
+      />
+
       <FlatList 
         data={data}
         renderItem={({item}) => articleCard(item)}
@@ -167,6 +188,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },
+  searchBar: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+  },
   flatList: {
     marginHorizontal: 16,
   },
@@ -178,6 +203,7 @@ const styles = StyleSheet.create({
   articleCard: {
     marginVertical: 24,
     rowGap: 10,
+    
   },
   mainInfo: {
     flex: 1,
@@ -195,12 +221,13 @@ const styles = StyleSheet.create({
   },
   source: {
     fontSize: 16,
-    color: "gray",
-    fontWeight: "600",
-    textTransform: "capitalize",
+    fontFamily: "RobotoLight",
+    textTransform: "uppercase",
   },
   articleTitle: {
-    fontWeight: "700",
+    fontFamily: "RobotoBold",
+    fontSize: 18,
+    letterSpacing: .5,
   },
   categoryDateAndBookmark: {
     flexDirection: "row",

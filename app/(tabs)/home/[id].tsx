@@ -31,8 +31,8 @@ export default function DetailsPage() {
   }
 
   useEffect(() => {
-    fetchData();
-    // setData(dummyData);
+    // fetchData();
+    setData(dummyData);
     console.log(data);
   },[id])
 
