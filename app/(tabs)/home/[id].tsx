@@ -4,12 +4,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import dummyData from "@/scripts/dummyData2.json";
 import { API_KEY } from "@env";
+import { Icon } from "react-native-paper";
+import { toggleSaveArticle } from "@/utils/fetchBookmarks";
+import { checkIfSaved } from "@/utils/saveArticle";
 
 
 export default function DetailsPage() {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams(); // Gotten from the path Link in ArticleCard not any function
 
   const [data, setData] = useState<any>({});
+  const [isSaved, setIsSaved] = useState(false);
 
   const url = new URL(`https://api.thenewsapi.com/v1/news/uuid/${id}`);
 
@@ -18,6 +22,10 @@ export default function DetailsPage() {
   url.searchParams.append("api_token", API_KEY);
   const mainUrl = url.href;
   console.log(mainUrl);
+
+  useEffect(() => {
+    checkIfSaved(Array.isArray(id) ? id[0] : id, isSaved, setIsSaved);
+  }, [id])
 
   async function fetchData() {
     try {
@@ -47,17 +55,23 @@ export default function DetailsPage() {
             <Pressable onPress={() => {
               router.back();
             }}>
-              <Image 
-                source={require("@/assets/icons/back.png")}
-                style={styles.backBtn}
+              <Icon 
+                source="keyboard-backspace"
+                size={30}
+                color=""
               />
             </Pressable>
 
-            <Pressable>
-              <Image 
-                source={require("@/assets/icons/bookmark3.png")}
-                style={styles.bookmark}
-                />
+            <Pressable onPress={() => toggleSaveArticle(id, isSaved, setIsSaved) }>
+              {isSaved ? (<Icon
+                  source="bookmark-check"
+                  size={30}
+                  color="blue"
+                />)
+                : (<Icon
+                  source="bookmark-outline"
+                  size={30}
+                />)}
             </Pressable>
 
           </View>
