@@ -11,12 +11,9 @@ import {
   SafeAreaView, 
 } from 'react-native';
 import Header from '@/components/header/Header';
-import Search from '@/components/Search';
 import { Searchbar } from "react-native-paper";
 import axios from "axios";
 import dummyData from "@/scripts/dummyData.json";
-import { useDate } from '@/hooks/useDate';
-// import Config from "react-native-config";
 import { API_KEY } from "@env";
 import { saveArticle } from '@/utils/saveArticle';
 import ArticleCard from '@/components/ArticleCard';
@@ -27,15 +24,7 @@ export default function HomeScreen() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const url = "https://newsapi.org/v2/top-headlines?country=ng&apiKey=d9a2c6ca0154424daebb75f56169aabd";
-
   const testUrl = "@/scripts/dummyData.json";
-
-  // const apiKey1 = "DaTFTark8fn29YgMcw4jDX5kMJymWjOgwPVnwXGC";
-
-  // const apiKey2 = "ThgcId8ETmkPgbqfGpenEtlvykBgiKOnqvqu5Mlr";
-
-  // const apiKey3 = "5hnA353pQo2y62yJH3lQwhZAhuHNqAd7XpBYCaRy";
 
   const mainUrl = new URL("https://api.thenewsapi.com/v1/news/top");
   mainUrl.searchParams.append("api_token", API_KEY);
@@ -72,17 +61,17 @@ export default function HomeScreen() {
     }
   }
 
-  // function sendSnippets(snippet: any, uuid: any) {
-  //   console.log("Send Snippets", snippet);
-  //   router.push({
-  //     pathname: "/(tabs)/home/[id]",
-  //     params: {
-  //       id: uuid,
-  //       snippet: "snippet"
-  //     }
-  //   });
-  //   console.log("Sent!");
-  // }
+  function sendSnippets(snippet: any, uuid: any) {
+    console.log("Send Snippets", snippet);
+    router.push({
+      pathname: "/(tabs)/home/[id]",
+      params: {
+        id: uuid,
+        snippet: "snippet"
+      }
+    });
+    console.log("Sent!");
+  }
 
   useEffect(() => {
     
@@ -112,7 +101,7 @@ export default function HomeScreen() {
 
       <FlatList 
         data={data}
-        renderItem={({item}) => ArticleCard(item)}
+        renderItem={({item}) => <ArticleCard {...item} />}
         ItemSeparatorComponent={(props) => <View style={styles.separator}></View>}
         style={styles.flatList}
       />

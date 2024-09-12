@@ -1,15 +1,22 @@
+import { useEffect, useState } from "react";
 import { useDate } from "@/hooks/useDate";
 import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
-import { Link } from "expo-router";
-import { saveArticle } from "@/utils/saveArticle";
-
+import { Link, router } from "expo-router";
+import { checkIfSaved, saveArticle } from "@/utils/saveArticle";
+import { toggleSaveArticle } from "@/utils/fetchBookmarks";
+import { Icon } from "react-native-paper";
 
 export default function ArticleCard(item: any) {
 
+  const [isSaved, setIsSaved] = useState(false);
   const convertedDate = useDate(item);
 
+  useEffect(() => {
+    checkIfSaved(item.uuid, isSaved, setIsSaved);
+  }, [item.uuid])
+
   return (
-    <Link href={`/home/${item.uuid}`} asChild >
+    <Link href={`/home/${item.uuid}`} asChild>
       <Pressable onPress={() => {
         android_ripple: {
           foreground: true
@@ -43,11 +50,16 @@ export default function ArticleCard(item: any) {
               <Text>{convertedDate}</Text>
             </View>
 
-            <Pressable onPress={() => saveArticle(item.uuid)}>
-              <Image 
-                source={require("@/assets/icons/bookmark2.png")}
-                style={styles.bookmark}
-              />
+            <Pressable onPress={() => toggleSaveArticle(item.uuid, isSaved, setIsSaved)}>
+              {isSaved ? (<Icon
+                source="bookmark-check"
+                size={28}
+                color="blue"
+              />)
+              : (<Icon
+                source="bookmark-outline"
+                size={28}
+              />)}
             </Pressable>
           </View>
         </View>
