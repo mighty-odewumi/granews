@@ -3,21 +3,19 @@ import { router, Stack, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import dummyData from "@/scripts/dummyData2.json";
+import { API_KEY } from "@env";
 
 
 export default function DetailsPage() {
-  const { id, snippet } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
 
   const [data, setData] = useState<any>({});
-
-  const apiKey = "DaTFTark8fn29YgMcw4jDX5kMJymWjOgwPVnwXGC";
 
   const url = new URL(`https://api.thenewsapi.com/v1/news/uuid/${id}`);
 
   const { height, width } = Dimensions.get("screen");
-  console.log(height, width);
 
-  url.searchParams.append("api_token", apiKey);
+  url.searchParams.append("api_token", API_KEY);
   const mainUrl = url.href;
   console.log(mainUrl);
 
