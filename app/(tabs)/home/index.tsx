@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, router, useNavigation, useRouter } from "expo-router";
 import { 
   Image, 
@@ -14,15 +14,17 @@ import Header from '@/components/header/Header';
 import { Searchbar } from "react-native-paper";
 import axios from "axios";
 import dummyData from "@/scripts/dummyData.json";
-import { API_KEY } from "@env";
+// import { API_KEY } from "@env";
 import { saveArticle } from '@/utils/saveArticle';
 import ArticleCard from '@/components/ArticleCard';
+
 
 export default function HomeScreen() {
 
   const [data, setData] = useState<any[]>([]);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
   const testUrl = "@/scripts/dummyData.json";
 
