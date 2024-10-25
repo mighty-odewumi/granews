@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import { useDate } from "@/hooks/useDate";
+import React from "react";
 import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
-import { Link, router } from "expo-router";
-import { checkIfSaved, saveArticle } from "@/utils/saveArticle";
-import { toggleSaveArticle } from "@/utils/fetchBookmarks";
-import { Icon } from "react-native-paper";
+import { Link } from "expo-router";
+import { useDate } from "@/hooks/useDate";
+import BookmarkButton from "@/components/BookmarkButton";
 
-export default function ArticleCard(item: any) {
 
-  const [isSaved, setIsSaved] = useState(false);
-  const convertedDate = useDate(item);
+type ArticleCardProps = {
+  article: { id: string; title: string };
+};
 
-  useEffect(() => {
-    checkIfSaved(item.uuid, isSaved, setIsSaved);
-  }, [item.uuid])
+export default function ArticleCard({ article }) {
+
+  const convertedDate = useDate(article);
 
   return (
-    <Link href={`/home/${item.uuid}`} asChild>
+    <Link href={`/home/${article.uuid}`} asChild>
       <Pressable onPress={() => {
         android_ripple: {
           foreground: true
@@ -29,18 +27,18 @@ export default function ArticleCard(item: any) {
           <View style={styles.mainInfo}>
             <View style={styles.textContainer}>
               <View>
-                <Text style={styles.source}>{item.source}
+                <Text style={styles.source}>{article.source}
                 </Text>
               </View>
 
               <View>
-                <Text style={styles.articleTitle}>{item.title}</Text>
+                <Text style={styles.articleTitle} numberOfLines={3}>{article.title}</Text>
               </View>
 
             </View>
 
             <Image 
-              source={{ uri: `${item.image_url}` }}
+              source={{ uri: `${article.image_url}` }}
               style={styles.newsImage}
             />
           </View>
@@ -50,17 +48,8 @@ export default function ArticleCard(item: any) {
               <Text>{convertedDate}</Text>
             </View>
 
-            <Pressable onPress={() => toggleSaveArticle(item.uuid, isSaved, setIsSaved)}>
-              {isSaved ? (<Icon
-                source="bookmark-check"
-                size={28}
-                color="blue"
-              />)
-              : (<Icon
-                source="bookmark-outline"
-                size={28}
-              />)}
-            </Pressable>
+            <BookmarkButton articleId={article.uuid} />
+
           </View>
         </View>
       </Pressable>
@@ -68,11 +57,14 @@ export default function ArticleCard(item: any) {
   )
 }
 
-
 const styles = StyleSheet.create({
   articleCard: {
-    marginVertical: 24,
+    marginVertical: 8,
     rowGap: 10,
+    borderBottomColor: "#e0e0e0",
+    borderBottomWidth: 1,
+    padding: 4,
+    paddingBottom: 12,
   },
   mainInfo: {
     flex: 1,
