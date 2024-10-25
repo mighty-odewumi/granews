@@ -9,15 +9,15 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "#5474FD",
         headerShown: false,
-        
       }}>
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} size={20}/>
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -30,7 +30,7 @@ export default function TabLayout() {
         }}
       />
 
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="notifications"
         options={{
           title: 'Notifications',
@@ -38,9 +38,9 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'notifications' : 'notifications-outline'} color={color} size={20} />
           ),
         }}
-      />
+      /> */}
 
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
@@ -48,7 +48,7 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} size={20} />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
 }

@@ -13,7 +13,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    NotoSans: require('../assets/fonts/NotoSans-VariableFont.ttf'),
+    "RobotoMedium": require('../assets/fonts/Roboto/RobotoMedium.ttf'),
+    "RobotoLight": require('../assets/fonts/Roboto/RobotoLight.ttf'),
+    "RobotoRegular": require('../assets/fonts/Roboto/RobotoRegular.ttf'),
+    "RobotoBold": require('../assets/fonts/Roboto/RobotoBold.ttf'),
   });
 
 
@@ -33,7 +36,7 @@ export default function RootLayout() {
       <ThemeProvider value={DefaultTheme}>
         <Stack> 
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
+          {/* <Stack.Screen name="+not-found" /> */}
         </Stack>
       </ThemeProvider>
     </>

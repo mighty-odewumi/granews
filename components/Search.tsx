@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     position: "relative",
+    marginBottom: 30,
+    marginHorizontal: 16,
   },
   textInput: {
     // borderWidth: 1,
