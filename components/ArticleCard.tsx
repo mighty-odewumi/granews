@@ -32,7 +32,7 @@ export default function ArticleCard({ article }) {
               </View>
 
               <View>
-                <Text style={styles.articleTitle}>{article.title}</Text>
+                <Text style={styles.articleTitle} numberOfLines={3}>{article.title}</Text>
               </View>
 
             </View>

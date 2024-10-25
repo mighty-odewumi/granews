@@ -61,45 +61,11 @@ export default function HomeScreen() {
     }
   }
 
-  function sendSnippets(snippet: any, uuid: any) {
-    console.log("Send Snippets", snippet);
-    router.push({
-      pathname: "/(tabs)/home/[id]",
-      params: {
-        id: uuid,
-        snippet: "snippet"
-      }
-    });
-    console.log("Sent!");
-  }
-
   useEffect(() => {
     
     // fetchData();
     setData(dummyData.data);
   }, [])
-
-  const articles = [
-    {uuid: "aaa", title: "Willow in the Pillow", summary: "Summary 1 is so long"},
-    {uuid: "bbb", title: "Puss in Boots", summary: "Puss' got a big boot"}
-  ];
-
-  function renderItem({item}: { item: typeof articles[0] }) {
-    return ( <View style={styles.articleItem}>
-     <Link href={`/home/${item.uuid}`}> 
-        <View style={styles.articleContent}>
-          <Text style={styles.title}>
-            {item.title}
-          </Text>
-
-          <Text style={styles.summary}>
-            {item.summary}
-          </Text>
-        </View>
-        <BookmarkButton articleId={item.uuid} />
-      </Link>
-    </View>)
-  }
 
   return (
     <SafeAreaView style={styles.container}>
