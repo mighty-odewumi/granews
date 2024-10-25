@@ -1,31 +1,27 @@
-import { View, Text, StyleSheet, Image, StatusBar, Pressable, ImageBackground, Dimensions, ScrollView, } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar, TouchableOpacity, ImageBackground, Dimensions, ScrollView, } from "react-native";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import dummyData from "@/scripts/dummyData2.json";
-import { API_KEY } from "@env";
 import { Icon } from "react-native-paper";
-import { toggleSaveArticle } from "@/utils/fetchBookmarks";
-import { checkIfSaved } from "@/utils/saveArticle";
+import { useRoute } from "@react-navigation/native";
+import BookmarkButton from "@/components/BookmarkButton";
+import { useDate } from "@/hooks/useDate";
 
-
-export default function DetailsPage() {
+export default function DetailsPage({ route }: any) {
   const { id } = useLocalSearchParams(); // Gotten from the path Link in ArticleCard not any function
+  // const { id } = useRoute().params;
+  console.log("ID: ", id);
 
   const [data, setData] = useState<any>({});
-  const [isSaved, setIsSaved] = useState(false);
-
   const url = new URL(`https://api.thenewsapi.com/v1/news/uuid/${id}`);
+  const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
   const { height, width } = Dimensions.get("screen");
 
   url.searchParams.append("api_token", API_KEY);
   const mainUrl = url.href;
   console.log(mainUrl);
-
-  useEffect(() => {
-    checkIfSaved(Array.isArray(id) ? id[0] : id, isSaved, setIsSaved);
-  }, [id])
 
   async function fetchData() {
     try {
@@ -42,6 +38,11 @@ export default function DetailsPage() {
     console.log(data);
   },[id])
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric"});
+  }
+
   return (
     <>
       <Stack.Screen options={{ headerTitle: `Details #${id}`, headerShown: false, }}/>
@@ -52,27 +53,21 @@ export default function DetailsPage() {
       >
         <View style={styles.container}>
           <View style={styles.detailsHeader}>
-            <Pressable onPress={() => {
-              router.back();
-            }}>
+            <TouchableOpacity 
+              onPress={() => {
+                router.back();
+              }}
+              style={styles.backBtn}
+            >
               <Icon 
                 source="keyboard-backspace"
                 size={30}
-                color=""
               />
-            </Pressable>
-
-            <Pressable onPress={() => toggleSaveArticle(id, isSaved, setIsSaved) }>
-              {isSaved ? (<Icon
-                  source="bookmark-check"
-                  size={30}
-                  color="blue"
-                />)
-                : (<Icon
-                  source="bookmark-outline"
-                  size={30}
-                />)}
-            </Pressable>
+            </TouchableOpacity>
+            <View style={styles.bookmarkContainer}>
+              <BookmarkButton articleId={id} />
+              {/* <Text style={styles.bookmarkText}>Save Article</Text> */}
+            </View>
 
           </View>
         </View>
@@ -80,10 +75,12 @@ export default function DetailsPage() {
 
       <View style={[styles.detailsBodyContainer, { height: height / 2}]}>
         <ScrollView>
-          <View style={styles.detailsBodyHeader}>
+          <View>
             <Text style={styles.title}>{data.title}</Text>
-            <Text style={styles.source}>{data.source}</Text>
-            <Text style={styles.date}>{data.published_at}</Text>
+            <View style={styles.metaInfo}>
+              <Text style={styles.source}>{data.source}</Text>
+              <Text style={styles.date}>{formatDate(data.published_at)}</Text>
+            </View>
 
           </View>
 
@@ -120,15 +117,21 @@ const styles = StyleSheet.create({
   detailsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-
   },
   backBtn: {
-    width: 30,
-    height: 30,
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    borderRadius: 20,
+    padding: 10,
   },
-  bookmark: {
-    width: 30,
-    height: 30,
+  bookmarkContainer: {
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    borderRadius: 20,
+    padding: 12,
+  },
+  bookmarkText: {
+    marginLeft: 8,
+    fontSize: 16,
+    color: "#007aff",
   },
   detailsBodyContainer: {
     flex: 1,
@@ -140,24 +143,30 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     backgroundColor: "#fff",
   },
-  detailsBodyHeader: {
-
-  },
   title: {
-    fontWeight: "900",
-    fontSize: 28,
+    fontWeight: "bold",
+    fontSize: 24,
+    marginBottom: 8,
+  },
+  metaInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
   },
   source: {
-    color: "gray",
-    fontSize: 24,
+    color: "#666",
+    fontSize: 14,
     marginTop: 6,
   },
   date: {
     marginVertical: 6,
+    color: "#666",
+    fontSize: 14,
   },
   detailsBody: {
     fontWeight: "semibold",
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 24,
   },
 
 });

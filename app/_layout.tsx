@@ -1,11 +1,13 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Provider } from "react-redux";
+import { store } from "../store";
+import { loadBookmarks } from '@/store/bookmarkSlice';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -19,12 +21,15 @@ export default function RootLayout() {
     "RobotoBold": require('../assets/fonts/Roboto/RobotoBold.ttf'),
   });
 
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    store.dispatch(loadBookmarks());
+  }, []);
 
   if (!loaded) {
     return null;
@@ -33,12 +38,12 @@ export default function RootLayout() {
   return (
     <>
       {/* <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}></ThemeProvider>      */}
-      <ThemeProvider value={DefaultTheme}>
+      <Provider store={store}>
         <Stack> 
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           {/* <Stack.Screen name="+not-found" /> */}
         </Stack>
-      </ThemeProvider>
+      </Provider>
     </>
   );
 }

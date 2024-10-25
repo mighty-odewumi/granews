@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, router, useNavigation, useRouter } from "expo-router";
 import { 
   Image, 
@@ -14,15 +14,13 @@ import Header from '@/components/header/Header';
 import { Searchbar } from "react-native-paper";
 import axios from "axios";
 import dummyData from "@/scripts/dummyData.json";
-// import { API_KEY } from "@env";
-import { saveArticle } from '@/utils/saveArticle';
 import ArticleCard from '@/components/ArticleCard';
-
+import BookmarkButton from "@/components/BookmarkButton";
 
 export default function HomeScreen() {
 
   const [data, setData] = useState<any[]>([]);
-
+  
   const [searchQuery, setSearchQuery] = useState("");
   const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -81,9 +79,30 @@ export default function HomeScreen() {
     setData(dummyData.data);
   }, [])
 
+  const articles = [
+    {uuid: "aaa", title: "Willow in the Pillow", summary: "Summary 1 is so long"},
+    {uuid: "bbb", title: "Puss in Boots", summary: "Puss' got a big boot"}
+  ];
+
+  function renderItem({item}: { item: typeof articles[0] }) {
+    return ( <View style={styles.articleItem}>
+     <Link href={`/home/${item.uuid}`}> 
+        <View style={styles.articleContent}>
+          <Text style={styles.title}>
+            {item.title}
+          </Text>
+
+          <Text style={styles.summary}>
+            {item.summary}
+          </Text>
+        </View>
+        <BookmarkButton articleId={item.uuid} />
+      </Link>
+    </View>)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* <StatusBar  backgroundColor={"#5474FD"} barStyle={"dark-content"} /> */}
       <StatusBar  barStyle={'dark-content'} />
 
       <Header />
@@ -103,11 +122,11 @@ export default function HomeScreen() {
 
       <FlatList 
         data={data}
-        renderItem={({item}) => <ArticleCard {...item} />}
-        ItemSeparatorComponent={(props) => <View style={styles.separator}></View>}
+        keyExtractor={(item) => item.uuid}
+        renderItem={({item}) => <ArticleCard article={item} />}
+        // ItemSeparatorComponent={(props) => <View style={styles.separator}></View>}
         style={styles.flatList}
       />
-
     </SafeAreaView>
   );
 }
@@ -125,9 +144,28 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   separator: {
-    borderStyle: "dotted",
+    // borderStyle: "dotted",
     borderBottomWidth: .3,
-    backgroundColor: "#ededed",
+    backgroundColor: "#e0e0e0",
   },
+  articleItem: {
+    flexDirection: "row",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  articleContent: {
+    flex: 1,
+    marginRight: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  summary: {
+    fontSize: 14,
+    color: "#666",
+  }
   
 });
