@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, router, useNavigation, useRouter } from "expo-router";
+import React, { useState, useEffect } from 'react';
 import { 
   Image, 
   StyleSheet, 
@@ -8,27 +7,21 @@ import {
   StatusBar, 
   FlatList, 
   Pressable, 
-  SafeAreaView, 
+  SafeAreaView,
+  ActivityIndicator, 
 } from 'react-native';
 import Header from '@/components/header/Header';
-import { Searchbar } from "react-native-paper";
-import axios from "axios";
+import { MD2Colors, Searchbar } from "react-native-paper";
 import dummyData from "@/scripts/dummyData.json";
 import ArticleCard from '@/components/ArticleCard';
-import BookmarkButton from "@/components/BookmarkButton";
+import { fetchNews } from '@/utils/fetchNews';
 
 export default function HomeScreen() {
 
   const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   
   const [searchQuery, setSearchQuery] = useState("");
-  const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
-
-  const testUrl = "@/scripts/dummyData.json";
-
-  const mainUrl = new URL("https://api.thenewsapi.com/v1/news/top");
-  mainUrl.searchParams.append("api_token", API_KEY);
-  const finalUrl = mainUrl.href;
 
   const categories = {
     general: "",
@@ -42,30 +35,16 @@ export default function HomeScreen() {
     food: "",
     travel: ""
   };
-
-  const router = useRouter();
-
-  const navigation = useNavigation();
- 
-  async function fetchData() {
-    try{
-      await axios.get(finalUrl)  // "@/scripts/dummyData.json"
-      .then(response => {
-        console.log(response.data);  // Axios handles parsing automatically
-        setData(response.data.data);
-      })
-    } catch(error) {
-        console.error("Couldn't fetch data!", error);
-    } finally {
-
-    }
-  }
-
+  
   useEffect(() => {
     
-    // fetchData();
-    setData(dummyData.data);
+    fetchNews(setData, setLoading);
+    // setData(dummyData.data);
   }, [])
+
+  if (loading) {
+    return <ActivityIndicator animating={true} color={MD2Colors.blue500}/>
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,11 +65,12 @@ export default function HomeScreen() {
         style={styles.searchBar}
       />
 
+      {loading && <ActivityIndicator animating={true} color={"blue"}/>}
+
       <FlatList 
         data={data}
         keyExtractor={(item) => item.uuid}
         renderItem={({item}) => <ArticleCard article={item} />}
-        // ItemSeparatorComponent={(props) => <View style={styles.separator}></View>}
         style={styles.flatList}
       />
     </SafeAreaView>

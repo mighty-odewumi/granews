@@ -5,10 +5,20 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 export default function TabLayout() {
  
   return (
+    
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#5474FD",
         headerShown: false,
+        tabBarStyle: { 
+          height: 60,
+        },
+        tabBarLabelStyle: {
+          paddingBottom: 10
+        },
+        tabBarItemStyle: {
+          paddingTop: 5
+        }
       }}>
       <Tabs.Screen
         name="home"
@@ -28,6 +38,7 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'bookmarks' : 'bookmarks-outline'} color={color} size={20} />
           ),
         }}
+        
       />
 
       {/* <Tabs.Screen

@@ -1,17 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
 import { Link } from "expo-router";
-import { useDate } from "@/hooks/useDate";
 import BookmarkButton from "@/components/BookmarkButton";
-
+import { formatDate } from "@/utils/formatDate";
 
 type ArticleCardProps = {
   article: { id: string; title: string };
 };
 
 export default function ArticleCard({ article }) {
-
-  const convertedDate = useDate(article);
 
   return (
     <Link href={`/home/${article.uuid}`} asChild>
@@ -45,7 +42,7 @@ export default function ArticleCard({ article }) {
 
           <View style={styles.categoryDateAndBookmark}>
             <View style={styles.categoryAndDate}>
-              <Text>{convertedDate}</Text>
+              <Text>{formatDate(article.published_at)}</Text>
             </View>
 
             <BookmarkButton articleId={article.uuid} />

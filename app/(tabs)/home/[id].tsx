@@ -1,47 +1,24 @@
 import { View, Text, StyleSheet, Image, StatusBar, TouchableOpacity, ImageBackground, Dimensions, ScrollView, } from "react-native";
 import { router, Stack, useLocalSearchParams } from "expo-router";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import dummyData from "@/scripts/dummyData2.json";
 import { Icon } from "react-native-paper";
-import { useRoute } from "@react-navigation/native";
 import BookmarkButton from "@/components/BookmarkButton";
-import { useDate } from "@/hooks/useDate";
+import { fetchNewsDetails } from "@/utils/fetchNewsDetails";
+import { formatDate } from "@/utils/formatDate";
 
 export default function DetailsPage({ route }: any) {
-  const { id } = useLocalSearchParams(); // Gotten from the path Link in ArticleCard not any function
-  // const { id } = useRoute().params;
-  console.log("ID: ", id);
-
   const [data, setData] = useState<any>({});
-  const url = new URL(`https://api.thenewsapi.com/v1/news/uuid/${id}`);
-  const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 
-  const { height, width } = Dimensions.get("screen");
-
-  url.searchParams.append("api_token", API_KEY);
-  const mainUrl = url.href;
-  console.log(mainUrl);
-
-  async function fetchData() {
-    try {
-      await axios.get(mainUrl)
-      .then(response => setData(response.data))
-    } catch (error) {
-      console.log("An error occurred while fetching details", error);
-    }
-  }
+  const { id } = useLocalSearchParams(); // Gotten from the path Link in ArticleCard not any function
+  console.log("ID: ", id);
+  const { height } = Dimensions.get("screen");
 
   useEffect(() => {
-    // fetchData();
-    setData(dummyData);
+    fetchNewsDetails(id, setData);
+    // setData(dummyData);
     console.log(data);
   },[id])
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric"});
-  }
 
   return (
     <>

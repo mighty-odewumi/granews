@@ -6,7 +6,7 @@ import ArticleCard from "@/components/ArticleCard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import dummyData from "@/scripts/dummyData.json";
 import { Link } from "expo-router";
-
+import { fetchNews } from "@/utils/fetchNews";
 
 export default function Bookmarks() {
 
@@ -16,7 +16,8 @@ export default function Bookmarks() {
   const bookmarkedArticles = data.filter(({ uuid }) => bookmarkedArticleIds.includes(uuid));
 
   useEffect(() => {
-    setData(dummyData.data);
+    fetchNews(setData)
+    // setData(dummyData.data);
   }, []);
 
   return (
