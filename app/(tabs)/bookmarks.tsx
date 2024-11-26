@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import ArticleCard from "@/components/ArticleCard";
@@ -7,22 +7,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import dummyData from "@/scripts/dummyData.json";
 import { Link } from "expo-router";
 import { fetchNews } from "@/utils/fetchNews";
+import { blue } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export default function Bookmarks() {
 
   const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const bookmarkedArticleIds = useSelector((state: RootState) => state.bookmarks.bookmarkedArticles);
   const bookmarkedArticles = data.filter(({ uuid }) => bookmarkedArticleIds.includes(uuid));
 
   useEffect(() => {
-    fetchNews(setData)
+    fetchNews(setData, setLoading)
     // setData(dummyData.data);
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My Bookmarks</Text>
+
+      {loading && <ActivityIndicator animating={true} color={"blue"}/>}
+      
       {bookmarkedArticles.length > 0 ? 
         (<FlatList 
           data={bookmarkedArticles}
