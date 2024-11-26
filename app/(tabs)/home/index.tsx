@@ -42,10 +42,7 @@ export default function HomeScreen() {
     // setData(dummyData.data);
   }, [])
 
-  // if (loading) {
-  //   return <ActivityIndicator animating={true} color={MD2Colors.blue500}/>
-  // }
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar  barStyle={'dark-content'} />
