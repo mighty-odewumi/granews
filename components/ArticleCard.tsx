@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import BookmarkButton from "@/components/BookmarkButton";
 import { formatDate } from "@/utils/formatDate";
@@ -12,7 +12,7 @@ export default function ArticleCard({ article }) {
 
   return (
     <Link href={`/home/${article.uuid}`} asChild>
-      <Pressable onPress={() => {
+      <TouchableOpacity onPress={() => {
         android_ripple: {
           foreground: true
           color: "#000"
@@ -49,7 +49,7 @@ export default function ArticleCard({ article }) {
 
           </View>
         </View>
-      </Pressable>
+      </TouchableOpacity>
     </Link>
   )
 }
