@@ -1,6 +1,10 @@
 # GraNews
 
-GraNews is a modern news application designed to provide users with the latest news articles from various sources. The application aggregates news from multiple categories, ensuring that users stay informed about current events, sports, technology, entertainment, and more.
+GraNews is a modern news application designed to provide users with the latest news articles from various sources. The application aggregates news from multiple categories, ensuring that users stay informed about current events, sports, technology, entertainment, and more. 
+
+
+## Download
+Here is an [APK download link](https://drive.google.com/drive/folders/1XLc6Zih2OikwNOjnS8R_Jgh1bhvC2zhP?usp=drive_link) for Android devices. Build folder with the highest number suffix is the most stable and recent release. e.g. ```/build4``` is an update to ```/build3```. Latest APKs normally update the old ones installed. If there's an error, uninstall the old app, clear phone cache and retry installation.
 
 ## Features
 
