@@ -15,6 +15,7 @@ import { Searchbar } from "react-native-paper";
 import dummyData from "@/scripts/dummyData.json";
 import ArticleCard from '@/components/ArticleCard';
 import { fetchNews } from '@/utils/fetchNews';
+import { useDispatch } from 'react-redux';
 
 export default function HomeScreen() {
 
@@ -22,6 +23,7 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(false);
   
   const [searchQuery, setSearchQuery] = useState("");
+  const dispatch = useDispatch();
 
   const categories = {
     general: "",
@@ -37,10 +39,19 @@ export default function HomeScreen() {
   };
   
   useEffect(() => {
-    
-    fetchNews(setData, setLoading);
+    if (searchQuery) {
+      const timeout = setTimeout(() => {
+      fetchNews(setData, setLoading, dispatch, searchQuery);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+
+    } else {
+      fetchNews(setData, setLoading, dispatch, searchQuery);
+    }
+
     // setData(dummyData.data);
-  }, [])
+  }, [searchQuery])
 
   
   return (
@@ -64,12 +75,19 @@ export default function HomeScreen() {
 
       {loading && <ActivityIndicator animating={true} color={"blue"}/>}
 
-      <FlatList 
-        data={data}
-        keyExtractor={(item) => item.uuid}
-        renderItem={({item}) => <ArticleCard article={item} />}
-        style={styles.flatList}
-      />
+      {searchQuery && !loading && data.length === 0 
+        ? (
+          <View style={styles.noResultsContainer}>
+            <Text style={styles.noResultsText}>No results found!</Text>
+          </View>
+          )
+        : (<FlatList 
+          data={data}
+          keyExtractor={(item) => item.uuid}
+          renderItem={({item}) => <ArticleCard article={item} />}
+          style={styles.flatList}
+        />)
+      }
     </SafeAreaView>
   );
 }
@@ -87,7 +105,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   separator: {
-    // borderStyle: "dotted",
     borderBottomWidth: .3,
     backgroundColor: "#e0e0e0",
   },
@@ -109,6 +126,15 @@ const styles = StyleSheet.create({
   summary: {
     fontSize: 14,
     color: "#666",
-  }
+  },
+  noResultsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noResultsText: {
+    fontSize: 18,
+    color: "gray",
+  },
   
 });
