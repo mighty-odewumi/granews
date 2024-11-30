@@ -12,7 +12,7 @@ export default function Bookmarks() {
   const data = useSelector((state: RootState) => state.bookmarks.articles);
 
   const bookmarkedArticleIds = useSelector((state: RootState) => state.bookmarks.bookmarkedArticles);
-  const bookmarkedArticles = data.filter(({ uuid }) => bookmarkedArticleIds.includes(uuid));
+  const bookmarkedArticles = data.filter(({ article_id }) => bookmarkedArticleIds.includes(article_id));
 
 
   return (

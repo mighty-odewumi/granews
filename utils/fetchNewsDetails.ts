@@ -3,16 +3,20 @@ import axios from "axios";
 import { Dimensions } from "react-native";
 
 export async function fetchNewsDetails(id, setData) {
-  const url = new URL(`https://api.thenewsapi.com/v1/news/uuid/${id}`);
+  const url = new URL(`https://newsdata.io/api/1/latest`);
   const { height, width } = Dimensions.get("screen");
 
-  url.searchParams.append("api_token", API_KEY);
+  url.searchParams.append("apikey", API_KEY);
+  url.searchParams.append("id", id);
   const mainUrl = url.href;
   console.log(mainUrl);
   
   try {
     await axios.get(mainUrl)
-    .then(response => setData(response.data))
+    .then(response => {
+      console.log(response.data.results);
+      setData(response.data.results[0]);
+    })
   } catch (error) {
     console.log("An error occurred while fetching details", error);
   }

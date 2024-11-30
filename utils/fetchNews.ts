@@ -10,15 +10,16 @@ export const fetchNews = async (
   dispatch: AppDispatch,
   searchQuery: string
 ) => {
-  const mainUrl = new URL("https://api.thenewsapi.com/v1/news/all"); 
-  mainUrl.searchParams.append("api_token", API_KEY);
-  searchQuery && mainUrl.searchParams.append("search", searchQuery);
+  const mainUrl = new URL("https://newsdata.io/api/1/latest"); 
+  mainUrl.searchParams.append("apikey", API_KEY);
+  searchQuery && mainUrl.searchParams.append("q", searchQuery);
   const finalUrl = mainUrl.href;
-
+  
   try {
     setLoading(true);
     const response = await axios.get(finalUrl); 
-    const fetchedData = response.data.data; 
+    const fetchedData = response.data.results; 
+    console.log(fetchedData);
     setData(fetchedData);
     dispatch(setArticles(fetchedData));
   } catch (error) {

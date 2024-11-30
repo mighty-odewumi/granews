@@ -83,7 +83,7 @@ export default function HomeScreen() {
           )
         : (<FlatList 
           data={data}
-          keyExtractor={(item) => item.uuid}
+          keyExtractor={(item) => item.article_id}
           renderItem={({item}) => <ArticleCard article={item} />}
           style={styles.flatList}
         />)

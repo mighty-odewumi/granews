@@ -43,7 +43,6 @@ export default function DetailsPage({ route }: any) {
             </TouchableOpacity>
             <View style={styles.bookmarkContainer}>
               <BookmarkButton articleId={id} />
-              {/* <Text style={styles.bookmarkText}>Save Article</Text> */}
             </View>
 
           </View>
@@ -55,25 +54,23 @@ export default function DetailsPage({ route }: any) {
           <View>
             <Text style={styles.title}>{data.title}</Text>
             <View style={styles.metaInfo}>
-              <Text style={styles.source}>{data.source}</Text>
-              <Text style={styles.date}>{formatDate(data.published_at)}</Text>
+              <Text style={styles.source}>{data.source_name}</Text>
+              <Text style={styles.date}>{formatDate(data.pubDate)}</Text>
             </View>
 
           </View>
 
           <Text style={styles.detailsBody}>
-            {data.snippet}.
+            {data.description}
             
-            &nbsp; Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod culpa, eveniet at optio fuga rerum amet dolorem dignissimos eaque ad? Minima eveniet culpa autem harum facere. 
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod culpa, eveniet at optio fuga rerum amet dolorem dignissimos eaque ad? Minima eveniet culpa autem harum facere. 
             Dolore, nesciunt provident! Veniam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam, incidunt et voluptatum dolorem velit ducimus omnis iure repellendus corrupti, non porro autem reprehenderit, iusto minima eligendi sit quos perspiciatis placeat?
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum illum vel optio nam similique quasi tempora hic. Pariatur quia commodi cumque quas accusantium! Sit expedita delectus cumque accusantium autem repellendus. 
 
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis sint nesciunt commodi, esse porro vero delectus corrupti provident rerum tempore qui obcaecati, hic, facere dicta alias totam ipsa natus consectetur.
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus enim doloremque eaque quasi molestias quibusdam, nobis adipisci suscipit dolorum, hic distinctio sunt eius earum reiciendis sit expedita. Eaque, tenetur! Repellendus.
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis quia itaque placeat dolorem, ratione natus sed officia. Delectus ab nobis esse tempora voluptatem sed explicabo quo? Cum quas fugit deserunt.
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est voluptate asperiores odit praesentium harum esse ducimus debitis dicta animi, quaerat ab cumque delectus facilis necessitatibus tempore at. Explicabo, facilis ipsum!
 
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex illo rerum at itaque autem cum aut recusandae voluptatum dolores vitae possimus adipisci similique molestiae odit saepe facilis, delectus quidem eos!
           </Text>
         </ScrollView>
       </View>
