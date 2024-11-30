@@ -56,7 +56,7 @@ export default function HomeScreen() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'dark-content'} backgroundColor={"white"} />
 
       <Header />
 
@@ -95,7 +95,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: "#fff",
   },
   searchBar: {
     marginHorizontal: 16,

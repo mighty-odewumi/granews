@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   container: {
-    marginTop: StatusBar.currentHeight || 0,
+    marginTop: 16,
     paddingHorizontal: 16,
   },
   detailsHeader: {
