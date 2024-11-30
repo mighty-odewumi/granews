@@ -43,14 +43,14 @@ export default function Bookmarks() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#fff",
     padding: 10,
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    marginTop: 40,
+    marginTop: 16,
     textAlign: "center",
   },
   emptyState: {
