@@ -18,13 +18,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
   return (
     <Link href={`/home/${article.article_id}`} key={article.article_id} asChild>
-      <TouchableOpacity onPress={() => {
-        android_ripple: {
-          foreground: true
-          color: "#000"
-
-        }
-      }}>
+      <TouchableOpacity>
         <View style={styles.articleCard}>
           
           <View style={styles.mainInfo}>

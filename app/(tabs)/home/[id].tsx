@@ -17,7 +17,6 @@ export default function DetailsPage({ route }: any) {
   useEffect(() => {
     fetchNewsDetails(id, setData);
     // setData(dummyData);
-    console.log(data);
   },[id])
 
   return (

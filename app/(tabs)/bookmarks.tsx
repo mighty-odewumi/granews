@@ -23,7 +23,7 @@ export default function Bookmarks() {
         (<FlatList 
           data={bookmarkedArticles}
           renderItem={({item}) => <ArticleCard article={item} />}
-          keyExtractor={(item) => item.uuid}
+          keyExtractor={(item) => item.article_id}
         />)
         : (
           <View style={styles.emptyState}>
