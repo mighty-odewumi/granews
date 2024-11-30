@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import dummyData from "@/scripts/dummyData.json";
 import { Link } from "expo-router";
 import { fetchNews } from "@/utils/fetchNews";
-import { blue } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export default function Bookmarks() {
 

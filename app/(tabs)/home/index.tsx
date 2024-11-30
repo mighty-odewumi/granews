@@ -11,7 +11,7 @@ import {
   ActivityIndicator, 
 } from 'react-native';
 import Header from '@/components/header/Header';
-import { MD2Colors, Searchbar } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import dummyData from "@/scripts/dummyData.json";
 import ArticleCard from '@/components/ArticleCard';
 import { fetchNews } from '@/utils/fetchNews';
