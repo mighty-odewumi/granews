@@ -5,26 +5,26 @@ import BookmarkButton from "@/components/BookmarkButton";
 import { formatDate } from "@/utils/formatDate";
 
 type ArticleCardProps = {
-  article: { id: string; title: string };
+  article: { 
+    article_id: string, 
+    title: string,
+    source_name: string,
+    image_url: string,
+    pubDate: string,
+  };
 };
 
-export default function ArticleCard({ article }) {
+export default function ArticleCard({ article }: ArticleCardProps) {
 
   return (
-    <Link href={`/home/${article.uuid}`} asChild>
-      <TouchableOpacity onPress={() => {
-        android_ripple: {
-          foreground: true
-          color: "#000"
-
-        }
-      }}>
+    <Link href={`/home/${article.article_id}`} key={article.article_id} asChild>
+      <TouchableOpacity>
         <View style={styles.articleCard}>
           
           <View style={styles.mainInfo}>
             <View style={styles.textContainer}>
               <View>
-                <Text style={styles.source}>{article.source}
+                <Text style={styles.source}>{article.source_name}
                 </Text>
               </View>
 
@@ -42,10 +42,10 @@ export default function ArticleCard({ article }) {
 
           <View style={styles.categoryDateAndBookmark}>
             <View style={styles.categoryAndDate}>
-              <Text>{formatDate(article.published_at)}</Text>
+              <Text>{formatDate(article.pubDate)}</Text>
             </View>
 
-            <BookmarkButton articleId={article.uuid} />
+            <BookmarkButton articleId={article.article_id} />
 
           </View>
         </View>

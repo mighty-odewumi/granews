@@ -12,7 +12,7 @@ export default function Bookmarks() {
   const data = useSelector((state: RootState) => state.bookmarks.articles);
 
   const bookmarkedArticleIds = useSelector((state: RootState) => state.bookmarks.bookmarkedArticles);
-  const bookmarkedArticles = data.filter(({ uuid }) => bookmarkedArticleIds.includes(uuid));
+  const bookmarkedArticles = data.filter(({ article_id }) => bookmarkedArticleIds.includes(article_id));
 
 
   return (
@@ -23,7 +23,7 @@ export default function Bookmarks() {
         (<FlatList 
           data={bookmarkedArticles}
           renderItem={({item}) => <ArticleCard article={item} />}
-          keyExtractor={(item) => item.uuid}
+          keyExtractor={(item) => item.article_id}
         />)
         : (
           <View style={styles.emptyState}>
