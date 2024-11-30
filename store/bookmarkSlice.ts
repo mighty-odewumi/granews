@@ -2,11 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface BookmarkState {
-  bookmarkedArticles: string[]
+  bookmarkedArticles: string[],
+  articles: any[],
 }
 
 const initialState: BookmarkState = {
-  bookmarkedArticles: []
+  bookmarkedArticles: [],
+  articles: [],
 }
 
 const bookmarkSlice = createSlice({
@@ -26,11 +28,14 @@ const bookmarkSlice = createSlice({
       }
 
       AsyncStorage.setItem("bookmarks", JSON.stringify(state.bookmarkedArticles));
+    },
+    setArticles: (state, action: PayloadAction<any[]>) => {
+      state.articles = action.payload;
     }
   }
 });
 
-export const { setBookmarks, toggleBookmark } = bookmarkSlice.actions;
+export const { setBookmarks, toggleBookmark, setArticles } = bookmarkSlice.actions;
 
 // Thunk to load bookmarks from AsyncStorage
 export const loadBookmarks = () => async (dispatch: any) => {
